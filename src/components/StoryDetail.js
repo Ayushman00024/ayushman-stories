@@ -1,9 +1,37 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './StoryDetail.css';
 
 function StoryDetail({ story, onBack }) {
+  const [readingProgress, setReadingProgress] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      const scrollTop = window.scrollY;
+      const progress = (scrollTop / (documentHeight - windowHeight)) * 100;
+      setReadingProgress(Math.min(progress, 100));
+    };
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape' || e.key === 'ArrowLeft') {
+        onBack();
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('keydown', handleKeyDown);
+    window.scrollTo(0, 0);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [onBack]);
+
   return (
     <div className="story-detail">
+      <div className="reading-progress" style={{ width: `${readingProgress}%` }} />
       <button className="back-button" onClick={onBack}>
         ← Back to Stories
       </button>

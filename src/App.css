@@ -1,11 +1,38 @@
 .App {
   min-height: 100vh;
+  position: relative;
+  z-index: 2;
+}
+
+.page-transition-enter {
+  opacity: 0;
+  transform: translateY(12px);
+}
+
+.page-transition-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity var(--dur-medium) var(--easing-smooth),
+              transform var(--dur-medium) var(--easing-smooth);
+}
+
+.page-transition-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.page-transition-exit-active {
+  opacity: 0;
+  transform: translateY(-12px);
+  transition: opacity var(--dur-medium) var(--easing-smooth),
+              transform var(--dur-medium) var(--easing-smooth);
 }
 
 .container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
+  position: relative;
 }
 
 @media (max-width: 768px) {
